@@ -37,4 +37,11 @@ from bioseq import Bio_Seq
 
 test = Bio_Seq()
 
-test.generate_random_seq(40, 'RNA')
+test.generate_random_seq(40, 'DNA')
+
+print(test.get_seq_info())
+print(test.count_nuc_freq())
+print(test.transcription())
+print(test.seq)
+print(test.reverse_complement())
+print(test.gc_content())

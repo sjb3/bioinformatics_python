@@ -9,8 +9,8 @@ class Bio_Seq:
     def __init__(self, seq="ATCG", seq_type="DNA", label='No Label'):
         """Sequence initialization, validation."""
         self.seq = seq.upper()
-        self.label = label
         self.seq_type = seq_type
+        self.label = label
         self.is_valid = self.__validate()
         assert self.is_valid, f"Provided data does not seem to be a correct {self.seq_type} sequence"
 
@@ -30,3 +30,18 @@ class Bio_Seq:
         seq = ''.join([random.choice(NUCLEOTIDE_BASE[seq_type])
                        for x in range(length)])
         self.__init__(seq, seq_type, 'Randomely generated sequence')
+
+    def count_nuc_freq(self):
+        # Optimized: refactor with collections' count
+        return dict(Counter(self.seq))
+
+    def transcription(self):
+        return self.seq.replace('T', 'U')
+
+    def reverse_complement(self):
+        # More pythonic approach
+        mapping = str.maketrans('ATCG', 'TAGC')
+        return self.seq.translate(mapping)[::-1]
+
+    def gc_content(self):
+        return round((self.seq.count('C') + self.seq.count('G'))/len(self.seq) * 100)
