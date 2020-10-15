@@ -33,6 +33,7 @@
 # print()
 
 
+from dna_toolkit import gen_reading_frames
 from bioseq import Bio_Seq
 
 test = Bio_Seq()
@@ -45,3 +46,13 @@ print(test.transcription())
 print(test.seq)
 print(test.reverse_complement())
 print(test.gc_content())
+print(test.gc_content_subsec())
+print(test.translate_seq())
+print(test.codon_usage('L'))
+for rf in test.gen_reading_frames():
+    print(rf)
+
+# print(test.proteins_from_rf(
+#     ['G', 'M', 'S', 'E', 'A', 'Q', 'N', 'R', 'K', 'G', '_', 'S']))
+
+print(test.all_proteins_from_orfs())
