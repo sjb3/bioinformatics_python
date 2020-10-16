@@ -36,11 +36,16 @@ class Bio_Seq:
         return dict(Counter(self.seq))
 
     def transcription(self):
-        return self.seq.replace('T', 'U')
+        if self.seq_type == 'DNA':
+            return self.seq.replace('T', 'U')
+        return 'Not a DNA sequence'
 
     def reverse_complement(self):
-        # More pythonic approach
-        mapping = str.maketrans('ATCG', 'TAGC')
+        if self.seq_type == 'DNA':
+            # More pythonic approach
+            mapping = str.maketrans('ATCG', 'TAGC')
+        else:
+            mapping = str.maketrans('AUCG', 'UAGC')
         return self.seq.translate(mapping)[::-1]
 
     def gc_content(self):
@@ -57,13 +62,22 @@ class Bio_Seq:
 
     def translate_seq(self, init_pos=0):
         # Translate a DNA sequence into an aminoacid sequence
-        return [DNA_Codons[self.seq[pos:pos + 3]] for pos in range(init_pos, len(self.seq)-2, 3)]
+
+        if self.seq_type == 'DNA':
+            return [DNA_Codons[self.seq[pos:pos + 3]] for pos in range(init_pos, len(self.seq)-2, 3)]
+        elif self.seq_type == 'RNA':
+            return [RNA_Codons[self.seq[pos:pos + 3]] for pos in range(init_pos, len(self.seq)-2, 3)]
 
     def codon_usage(self, aminoacid):
         tmpList = []
-        for i in range(0, len(self.seq)-2, 3):
-            if DNA_Codons[self.seq[i:i + 3]] == aminoacid:
-                tmpList.append(self.seq[i:i + 3])
+        if self.seq_type == 'DNA':
+            for i in range(0, len(self.seq)-2, 3):
+                if DNA_Codons[self.seq[i:i + 3]] == aminoacid:
+                    tmpList.append(self.seq[i:i + 3])
+        elif self.seq_type == 'RNA':
+            for i in range(0, len(self.seq)-2, 3):
+                if RNA_Codons[self.seq[i:i + 3]] == aminoacid:
+                    tmpList.append(self.seq[i:i + 3])
 
         freqDict = dict(Counter(tmpList))
         totalWeight = sum(freqDict.values())

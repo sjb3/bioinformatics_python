@@ -35,10 +35,11 @@
 
 from dna_toolkit import gen_reading_frames
 from bioseq import Bio_Seq
+from utilities import *
 
 test = Bio_Seq()
 
-test.generate_random_seq(40, 'DNA')
+test.generate_random_seq(40, 'RNA')
 
 print(test.get_seq_info())
 print(test.count_nuc_freq())
@@ -56,3 +57,15 @@ for rf in test.gen_reading_frames():
 #     ['G', 'M', 'S', 'E', 'A', 'Q', 'N', 'R', 'K', 'G', '_', 'S']))
 
 print(test.all_proteins_from_orfs())
+
+''' Test Utilities
+
+writeTextFile('test.txt', test.seq)
+for rf in test.gen_reading_frames():
+    writeTextFile('test.txt', str(rf), 'a')
+
+# Read FASTA format
+fasta = read_FASTA('rosalind_problems/data/sample.txt')
+print(fasta)
+
+'''
